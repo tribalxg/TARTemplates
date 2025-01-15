@@ -1,8 +1,23 @@
 ---
 title: "TAR Template"
+execute:
+  echo: false
+  include: false
+  message: false
+  warning: false
 format: html
 editor: visual
 ---
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(dataRetrieval)
+
+```
+
+
+
 
 # Introduction – Atlas of Tribal Water Resources
 
@@ -13,21 +28,53 @@ Add information here about all of the water resources. This would be a great pla
 Add information here about where and what you monitored, methods used and possibly in-line code that describes number of sites monitored during the time period, minimum and maximum dates, etc.
 
 ```{r}
-1 + 1
+#| label: USGSgagedata
+
+#THIS IS FOR WEST ENFIELD GAGE STATION IN MAINE - CHANGE TO YOURS
+siteNo <- "01034500"  #FIND YOUR GAGE AND CHANGE THE NUMBER
+
+# this pcode is for discharge in cfs
+#For a full list of pCodes see #https://help.waterdata.usgs.gov/code/parameter_cd_query?fmt=rdb&inline=true&group_cd=%
+pCode <- "00060"
+
+#CHANGE DATES YOU WANT TO PLOT
+start.date <- "2023-10-01"
+end.date <- "2024-09-30"
+
+cfs <- readNWISuv(siteNumbers = siteNo,
+                          parameterCd = pCode,
+                          startDate = start.date,
+                          endDate = end.date)
+
+#test <- readNWISuv(siteNumbers = siteNo,parameterCd = pCode)
+
+cfs <- renameNWISColumns(cfs)
+
+parameterInfo <- attr(cfs, "variableInfo")
+siteInfo <- attr(cfs, "siteInfo")
+
 ```
 
-You can add options to executable code like this
 
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
 
 # Water quality monitoring program and assessment methods: Data Analysis Results
 
 Summaries of results (including basic stats?) and whether sites/reaches/assessment units are meeting their water quality standards.
+
+```{r}
+#| label: cfsplot
+
+Qplots <- ggplot(data = cfs, aes(dateTime, Flow_Inst)) +
+  geom_line()+
+  labs(title = paste0("USGS Flow Measurements on the ",siteInfo$station_nm), 
+       x = "Date", 
+       y = parameterInfo$variableDescription, 
+       color = "Flow Measurement") +
+  theme(legend.position = "bottom",
+          legend.box = "vertical")
+Qplots
+```
+
 
 # Water quality monitoring program and assessment methods: Discussion of issues of tribal concern
 
