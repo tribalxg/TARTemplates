@@ -1,0 +1,34 @@
+---
+title: "TAR Template"
+format: html
+editor: visual
+---
+
+# Introduction – Atlas of Tribal Water Resources
+
+Add information here about all of the water resources. This would be a great place to include maps, either interactive or static. Perhaps include the water quality standards associated with each site/reach/assessment unit. Maybe include a list of USGS stream gages and associated data in this section?
+
+# Water quality monitoring program and assessment methods: Introduction-Monitoring Program Overview
+
+Add information here about where and what you monitored, methods used and possibly in-line code that describes number of sites monitored during the time period, minimum and maximum dates, etc.
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# Water quality monitoring program and assessment methods: Data Analysis Results
+
+Summaries of results (including basic stats?) and whether sites/reaches/assessment units are meeting their water quality standards.
+
+# Water quality monitoring program and assessment methods: Discussion of issues of tribal concern
+
+Include information about sources of pollution, habitat loss, reasons for not meeting standards etc.
